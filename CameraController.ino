@@ -39,7 +39,7 @@ CameraState state;
 ExposureData data;
 
 /* Objects */
-Nikon nikonDevice(9);
+Nikon nikonDevice(cameraIrPin);
 
 /* Mandatory functions */
 void setup() {
