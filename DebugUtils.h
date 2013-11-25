@@ -22,9 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DEBUGUTILS_H
 #define DEBUGUTILS_H
 
-#include <WProgram.h>
-
 #ifdef DEBUG
+#include <WProgram.h>
 #define DEBUG_PRINT(str)    \
     Serial.print(millis());     \
     Serial.print(": ");    \
