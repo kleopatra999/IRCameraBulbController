@@ -28,6 +28,11 @@ The command string should be newline (`\n`) terminated when sent over serial.
 example:
 `EXP:120:30:1:10` Will take 10 exposures, 120s (2 min) long, 30s apart and will use mirror up to do this.
 
+If a second EXP command is issued while one is running then an `ERR:busy` message will be sent, and the current sequence will continue.
+
+**Abort sequence**
+`ABT`  This command will stop a currently running exposure and then put the system back into an idle state to wait for the next command.
+
 Responces
 ---------
 
