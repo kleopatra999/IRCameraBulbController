@@ -203,6 +203,7 @@ void Abort(){
 	if (state == EXPOSING) {EndExposure();}
 	// Go back to idle.
 	state = IDLE;
+	Serial.println("FIN");
 }
 
 void BeginExposure(){
