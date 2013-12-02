@@ -37,6 +37,8 @@ namespace IRCameraBulbController.NET
         {
             LoadDefaults();
             LoadPorts();
+
+            TimerUI.Start();
         }
 
         private void ButtonPortRefresh_Click(object sender, EventArgs e)
@@ -71,15 +73,11 @@ namespace IRCameraBulbController.NET
         private void ButtonStart_Click(object sender, EventArgs e)
         {
             _camController.Start();
-            System.Threading.Thread.Sleep(100); // Give the Arduino a moment, it's not very fast!
-            UpdateUI();
         }
 
         private void ButtonAbort_Click(object sender, EventArgs e)
         {
             _camController.Abort();
-            System.Threading.Thread.Sleep(100); // Give the Arduino a moment, it's not very fast!
-            UpdateUI();
         }
 
         private void ComboPorts_SelectedIndexChanged(object sender, EventArgs e)
@@ -96,6 +94,10 @@ namespace IRCameraBulbController.NET
                 }
             );
         }
+
+        private void TimerUI_Tick(object sender, EventArgs e)
+        {
+            UpdateUI();
         }
 
 
@@ -111,8 +113,10 @@ namespace IRCameraBulbController.NET
             this.ButtonStart.Click += ButtonStart_Click;
             this.ComboPorts.SelectedIndexChanged += ComboPorts_SelectedIndexChanged;
             this._camController.ErrorRecieved += _camController_ErrorRecieved;
+            this.TimerUI.Tick += TimerUI_Tick;
             Application.ApplicationExit += Application_ApplicationExit;
         }
+
 
         private void LoadDefaults()
         {
@@ -148,5 +152,6 @@ namespace IRCameraBulbController.NET
                 NumericQuantity.Enabled = enable;
 
         }
+
     }
 }
