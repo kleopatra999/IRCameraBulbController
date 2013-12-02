@@ -90,9 +90,9 @@ namespace IRCameraBulbController.NET
                     case "FIN":
                         _busy = false;
                         break;
-                    case"ERR":
-                        var s = data.Substring(data.IndexOf(':'));
-                        OnErrorRecieved(new ErrorRecievedEventArgs());
+                    case "ERR":
+                        string s = data.Substring(data.IndexOf(':') + 1);
+                        OnErrorRecieved(new ErrorRecievedEventArgs(s));
                         break;
                 }
             }
