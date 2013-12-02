@@ -88,9 +88,9 @@ namespace IRCameraBulbController.NET
         private void _camController_ErrorRecieved(object sender, ErrorRecievedEventArgs e)
         {
             _lastError = DateTime.Now;
-            this.Invoke((MethodInvoker) delegate 
+            this.Invoke((MethodInvoker)delegate
                 {
-                    LabelStatus.Text = e.ErrorMessage; 
+                    LabelStatus.Text = e.ErrorMessage;
                 }
             );
         }
@@ -147,6 +147,7 @@ namespace IRCameraBulbController.NET
             ComboPorts.Enabled =
                 ButtonStart.Enabled =
                 ButtonPortRefresh.Enabled =
+                CheckMirrorUp.Enabled =
                 NumericDuration.Enabled =
                 NumericGap.Enabled =
                 NumericQuantity.Enabled = enable;
