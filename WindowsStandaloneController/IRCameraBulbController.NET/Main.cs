@@ -90,7 +90,12 @@ namespace IRCameraBulbController.NET
         private void _camController_ErrorRecieved(object sender, ErrorRecievedEventArgs e)
         {
             _lastError = DateTime.Now;
-            LabelStatus.Text = e.ErrorMessage;
+            this.Invoke((MethodInvoker) delegate 
+                {
+                    LabelStatus.Text = e.ErrorMessage; 
+                }
+            );
+        }
         }
 
 
