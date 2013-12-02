@@ -54,9 +54,23 @@ Multi Camera IR Control
 // To use add a DEBUG_PRINT() where needed.
 // #define DEBUG
 #include "DebugUtils.h"
-
 #include <multiCameraIrControl.h>
-#include "IRCameraBulbController.h"
+
+
+enum CameraState {
+  IDLE,
+  EXPOSING,
+  GAP,
+  MIRRORUP
+};
+
+typedef struct {
+  int exposureLength;
+  int gap;
+  boolean mirrorUp;
+  int quantity;
+  int taken;
+} ExposureData;
 
 /* Constants */
 enum {
