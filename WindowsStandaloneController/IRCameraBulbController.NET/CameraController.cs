@@ -36,7 +36,7 @@ namespace IRCameraBulbController.NET
                 }
                 if (!String.IsNullOrEmpty(value))
                 {
-                    _port = new SerialPort(value, Properties.Settings.Default.BaudRate);
+                    _port = new SerialPort(value, _baud_rate);
                     _port.DataReceived += Port_DataReceived;
                 }
                 else
