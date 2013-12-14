@@ -77,6 +77,7 @@ enum {
 	MAX_COMMAND_LENGTH = (20 + 1), // Allow room for '\0'
 	BAUD_RATE = 19200,
 	WAIT_MIRRORUP = 2,
+	WAIT_REPORT = 1000,
 	POS_EXP = 1,
 	POS_GAP = 2,
 	POS_MIRROR_UP = 3,
@@ -93,6 +94,7 @@ int cameraIrPin = 9;
 char commandBuffer[MAX_COMMAND_LENGTH] = "";
 char commandPosition = 0;
 unsigned long lastOperationStart;
+unsigned long lastUpdate;
 
 /* Objects and Structures */
 Nikon nikonDevice(cameraIrPin);
@@ -119,6 +121,8 @@ void loop() {
 	if (state != IDLE){
 		LoopBody();
 	}
+
+	DoUpdate();
 }
 
 /* Custom functions */
@@ -281,4 +285,41 @@ void LoopBody(){
 			}
 			break;
 	}
+}
+
+void DoUpdate() {
+	if (state != IDLE && 
+	   (millis() - lastUpdate > WAIT_REPORT)) {
+		
+		unsigned long t = millis() - lastOperationStart;
+		t = (t / 1000);
+
+		int taken = 0;
+		char mode[4]; // leave room for terminator.
+		switch(state){
+			case EXPOSING:
+				strcpy(mode, "EXP");
+				taken = data.taken + 1; // taken increments after the exp so add 1.
+				break;
+			case GAP:
+				strcpy(mode, "GAP");
+				taken = data.taken;
+				break;
+			case MIRRORUP:
+				strcpy(mode, "MUP");
+				taken = data.taken + 1; // taken increments after the exp so add 1.
+				break;
+		}
+
+		// exp:of:elapsed
+		Serial.print(mode);
+		Serial.print(":");
+		Serial.print(taken);
+		Serial.print(":");
+		Serial.print(data.quantity);
+		Serial.print(":");
+		Serial.println(t);
+
+		lastUpdate = millis();
+	} 
 }
