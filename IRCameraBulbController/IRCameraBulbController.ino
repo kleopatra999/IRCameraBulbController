@@ -76,7 +76,7 @@ typedef struct {
 enum {
 	MAX_COMMAND_LENGTH = (20 + 1), // Allow room for '\0'
 	BAUD_RATE = 19200,
-	WAIT_MIRRORUP = 2000,
+	WAIT_MIRRORUP = 2,
 	POS_EXP = 1,
 	POS_GAP = 2,
 	POS_MIRROR_UP = 3,
@@ -239,6 +239,7 @@ void ResetLastActionTime(){
 void LoopBody(){
 	// Calulate elapsed time since last event
 	unsigned long t = millis() - lastOperationStart;
+	t = t / 1000;
 
 	switch(state) {
 		case MIRRORUP:
@@ -251,11 +252,11 @@ void LoopBody(){
 			break;
 
 		case EXPOSING:
-			if (t > (data.exposureLength * 1000)) {
+			if (t >= data.exposureLength) {
 				EndExposure();
 				ResetLastActionTime();
 
-						// Are we done?
+				// Are we done?
 				data.taken++;
 				if (data.taken >= data.quantity){
 					state = IDLE;
@@ -268,7 +269,7 @@ void LoopBody(){
 			break;
 
 		case GAP:
-			if (t > (data.gap * 1000)) {
+			if (t > data.gap) {
 				BeginExposure();
 				ResetLastActionTime();
 
